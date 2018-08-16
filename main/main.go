@@ -14,23 +14,24 @@ func main() {
 	// 	{"*", "*", "*", "0", "*", "0"},
 	// 	{"*", "*", "0", "0", "*", "0"},
 	// 	{"*", "*", "0", "*", "0", "0"}}
-	var route string
-	mapss := [6][6]rune{{'0', '0', '*', '0', '0', '0'},
-		{'0', '*', '0', '0', '*', '0'},
-		{'0', '0', '0', '0', '*', '0'},
-		{'*', '*', '*', '0', '*', '0'},
-		{'*', '*', '0', '0', '*', '*'},
-		{'*', '*', '0', '*', '0', '0'}}
-	showmap := maze(mapss)
-	printShowMap(showmap)
-	move(mapss, showmap, 0, 0, route)
+	// var route string
+	// mapss := [6][6]rune{{'0', '0', '*', '0', '0', '0'},
+	// 	{'0', '*', '0', '0', '*', '0'},
+	// 	{'0', '0', '0', '0', '*', '0'},
+	// 	{'*', '*', '*', '0', '*', '0'},
+	// 	{'*', '*', '0', '0', '*', '*'},
+	// 	{'*', '*', '0', '*', '0', '0'}}
+	// showmap := maze(mapss)
+	// printShowMap(showmap)
+	// move(mapss, showmap, 0, 0, route)
 
-	if mapss[1][0] == '*' {
+	// if mapss[1][0] == '*' {
 
-		println(mapss[1][0])
-	} else {
-		println("Not found")
-	}
+	// 	println(mapss[1][0])
+	// } else {
+	// 	println("Not found")
+	// }
+	starthanoi()
 }
 
 func ezatoi(a string, b, c int) (int, error) {
@@ -146,4 +147,64 @@ func move(walk [6][6]rune, s [6][6]string, x, y int, r string) bool {
 type coordinate struct {
 	x, y  int
 	value string
+}
+
+type Stack struct {
+	pile [10]int
+	top  int
+}
+
+func (x *Stack) push(v int) {
+	x.pile[x.top] = v
+	x.top++
+}
+
+func (x *Stack) pop() int {
+	v := x.pile[x.top-1]
+	x.pile[x.top-1] = 0
+	x.top--
+	println("in pop : v = ", v)
+	return v
+}
+
+func starthanoi() {
+	// println()
+	var s1, s2, s3 Stack
+	s1.push(5)
+	s1.push(4)
+	s1.push(3)
+	s1.push(2)
+	s1.push(1)
+	fmt.Printf("begin s1 is : %v \n", s1)
+	fmt.Printf("begin s2 is : %v \n", s2)
+	fmt.Printf("begin s3 is : %v \n", s3)
+	movehanoi(&s1, &s3, &s2, 5)
+	fmt.Printf("begin s1 is : %v \n", s1)
+	fmt.Printf("begin s2 is : %v \n", s2)
+	fmt.Printf("begin s3 is : %v \n", s3)
+}
+
+func movehanoi(s1, s3, s2 *Stack, n int) {
+	fmt.Printf(" s1 is : %v \n", s1)
+	fmt.Printf(" s2 is : %v \n", s2)
+	fmt.Printf(" s3 is : %v \n\n\n", s3)
+	if n == 1 {
+		disk := s1.pop()
+		s3.push(disk)
+		return
+	}
+	if n == 2 {
+		disk := s1.pop()
+		s2.push(disk)
+		disk = s1.pop()
+		s3.push(disk)
+		disk = s2.pop()
+		s3.push(disk)
+	}
+	if n > 2 {
+		movehanoi(s1, s2, s3, n-1)
+		movehanoi(s1, s3, s2, 1)
+		movehanoi(s2, s3, s1, n-1)
+	}
+
 }
