@@ -68,14 +68,14 @@ func factorial(i int) int {
 	return i * factorial(i-1)
 }
 
-func fibonuci(i int) int {
+func fibonacci(i int) int {
 	if i == 0 {
 		return 0
 	}
 	if i == 1 {
 		return 1
 	}
-	return fibonuci(i-1) + fibonuci(i-2)
+	return fibonacci(i-1) + fibonacci(i-2)
 }
 
 func maze(mapss [6][6]rune) [6][6]string {
